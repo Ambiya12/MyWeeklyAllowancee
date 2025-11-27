@@ -2,7 +2,7 @@
 
 namespace App\Application\UseCases;
 
-use App\FamilyManager;
+use App\Domain\Services\FamilyManager;
 
 class SpendUseCase
 {

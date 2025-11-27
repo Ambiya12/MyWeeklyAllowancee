@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use App\FamilyManager;
+use App\Domain\Services\FamilyManager;
 use App\Infrastructure\Http\TeenController;
 use App\Application\UseCases\AddTeenUseCase;
 use App\Application\UseCases\DepositUseCase;

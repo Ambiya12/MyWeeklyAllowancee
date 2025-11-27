@@ -7,7 +7,7 @@ use App\Application\UseCases\DepositUseCase;
 use App\Application\UseCases\SpendUseCase;
 use App\Application\UseCases\ProcessAllowanceUseCase;
 use App\Application\UseCases\ResetUseCase;
-use App\FamilyManager;
+use App\Domain\Services\FamilyManager;
 
 class TeenController
 {

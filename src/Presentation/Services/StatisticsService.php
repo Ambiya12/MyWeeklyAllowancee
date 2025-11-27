@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Services;
 
-use App\FamilyManager;
+use App\Domain\Services\FamilyManager;
 
 class StatisticsService
 {
