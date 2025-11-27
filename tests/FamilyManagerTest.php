@@ -70,4 +70,17 @@ class FamilyManagerTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->manager->getWallet('Pierre');
     }
+
+    public function testGetAllTeens(): void
+    {
+        $this->assertEmpty($this->manager->getAllTeens());
+
+        $this->manager->addTeen('Anatole', 5.0);
+        $this->manager->addTeen('Galyst', 10.0);
+
+        $teens = $this->manager->getAllTeens();
+        $this->assertCount(2, $teens);
+        $this->assertContains('Anatole', $teens);
+        $this->assertContains('Galyst', $teens);
+    }
 }
