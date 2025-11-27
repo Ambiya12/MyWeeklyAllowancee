@@ -25,4 +25,28 @@ class FamilyManagerTest extends TestCase {
         $fm->spendFromTeen('Galyst', 5.0);
         $this->assertEquals(15.0, $fm->getWallet('Galyst')->getBalance());
     }
+
+    // Galyst
+    public function testWeeklyAllowance()
+    {
+        $fm = new FamilyManager();
+        $fm->addTeen('Antoine', 7.0);
+        $fm->processAllWeeklyAllowances();
+        $this->assertEquals(7.0, $fm->getWallet('Antoine')->getBalance());
+        $fm->processAllWeeklyAllowances();
+        $this->assertEquals(14.0, $fm->getWallet('Antoine')->getBalance());
+    }
+
+    // Galyst
+    public function testMultipleTeens()
+    {
+        $fm = new FamilyManager();
+        $fm->addTeen('Anatoine', 2.0);
+        $fm->addTeen('Anatole', 3.0);
+        $fm->depositToTeen('Anatoine', 5.0);
+        $fm->depositToTeen('Anatole', 10.0);
+        $fm->processAllWeeklyAllowances();
+        $this->assertEquals(7.0, $fm->getWallet('Anatoine')->getBalance());
+        $this->assertEquals(13.0, $fm->getWallet('Anatole')->getBalance());
+    }
 }
