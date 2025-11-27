@@ -3,7 +3,7 @@
 namespace MyWeeklyAllowancee\tests;
 
 use PHPUnit\Framework\TestCase;
-use App\Wallet;
+use App\Domain\Entities\Wallet;
 use InvalidArgumentException;
 use RuntimeException;
 

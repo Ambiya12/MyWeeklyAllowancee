@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Domain\Services;
 
 use RuntimeException;
+use App\Domain\Entities\Wallet;
 
 class FamilyManager
 {

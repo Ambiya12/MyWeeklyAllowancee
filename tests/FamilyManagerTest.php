@@ -3,7 +3,7 @@
 namespace MyWeeklyAllowancee\tests;
 
 use PHPUnit\Framework\TestCase;
-use App\FamilyManager;
+use App\Domain\Services\FamilyManager;
 use RuntimeException;
 
 class FamilyManagerTest extends TestCase
