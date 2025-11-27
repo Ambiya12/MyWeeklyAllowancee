@@ -2,6 +2,49 @@
 
 ## Groupe : Dupuis Anatole, TU Antoine, Galystan Ambiya Dimas
 
+## Installation
+
+### Prérequis
+
+- PHP 8.4+
+- Composer
+- Xdebug (pour la couverture de code)
+
+### Étapes d'installation
+
+1. Cloner le projet :
+
+```bash
+git clone https://github.com/Ambiya12/MyWeeklyAllowancee.git
+cd MyWeeklyAllowancee
+```
+
+2. Installer les dépendances :
+
+```bash
+composer install
+```
+
+## Lancer les tests
+
+Exécuter tous les tests unitaires :
+
+```bash
+./vendor/bin/phpunit
+```
+
+## Couverture de code
+
+Les tests génèrent automatiquement un rapport de couverture HTML dans le dossier `coverage/`.
+
+Pour visualiser le rapport de couverture :
+
+```bash
+php -S localhost:8080 -t coverage
+```
+
+Puis ouvrir http://localhost:8080 dans votre navigateur.
+
 ## Projet MyWeeklyAllowance
 
 Vous allez concevoir un module de gestion d’argent de poche pour adolescents, selon la méthode TDD (Test Driven Development).
