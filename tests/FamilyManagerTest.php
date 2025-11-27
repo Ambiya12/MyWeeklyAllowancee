@@ -49,4 +49,21 @@ class FamilyManagerTest extends TestCase {
         $this->assertEquals(7.0, $fm->getWallet('Anatoine')->getBalance());
         $this->assertEquals(13.0, $fm->getWallet('Anatole')->getBalance());
     }
+
+    // Anatole
+    public function testAddTeenTwiceThrows()
+    {
+        $this->expectException(\Exception::class);
+        $fm = new FamilyManager();
+        $fm->addTeen('Galyst', 1.0);
+        $fm->addTeen('Galyst', 2.0);
+    }
+
+    // Anatole
+    public function testUnknownTeenThrows()
+    {
+        $this->expectException(\Exception::class);
+        $fm = new FamilyManager();
+        $fm->getWallet('Pierre');
+    }
 }
