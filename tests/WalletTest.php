@@ -1,6 +1,6 @@
 <?php
 
-namespace MyWeeklyAllowance;
+namespace MyWeeklyAllowancee\tests;
 
 use PHPUnit\Framework\TestCase;
 use App\Wallet;
