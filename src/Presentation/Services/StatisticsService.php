@@ -1,10 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Presentation\Services;
 
-class ViewHelper
+use App\FamilyManager;
+
+class StatisticsService
 {
-    public static function calculateStatistics(FamilyManager $fm, array $teens): array
+    public function calculateStatistics(FamilyManager $fm, array $teens): array
     {
         $totalBalance = 0;
         $totalSpent = 0;
@@ -22,11 +24,5 @@ class ViewHelper
             'totalBalance' => $totalBalance,
             'totalSpent' => $totalSpent,
         ];
-    }
-
-    public static function renderView(string $view, array $data = []): void
-    {
-        extract($data);
-        require __DIR__ . "/../templates/{$view}.php";
     }
 }
