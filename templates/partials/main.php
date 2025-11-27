@@ -3,7 +3,6 @@
         <div class="message <?= $messageType ?>"><?= htmlspecialchars($message) ?></div>
     <?php endif; ?>
 
-    <!-- STATISTICS -->
     <div class="stats">
         <div class="stat-card">
             <div class="stat-number"><?= count($teens) ?></div>
@@ -19,7 +18,6 @@
         </div>
     </div>
 
-    <!-- WALLETS -->
     <div class="wallets-section">
         <div class="section-header">
             <h2>👛 Wallets</h2>

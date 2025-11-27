@@ -5,7 +5,6 @@
         <p>Manage your teens' pocket money</p>
     </div>
 
-    <!-- ADD TEEN PANEL -->
     <div class="panel">
         <div class="panel-title">👤 Add New Teen</div>
         <form method="post">
@@ -24,7 +23,7 @@
     </div>
 
     <?php if ($teens): ?>
-    <!-- TRANSACTION PANEL -->
+
     <div class="panel">
         <div class="panel-title">💳 Make Transaction</div>
         <form method="post">
@@ -53,7 +52,6 @@
         </form>
     </div>
 
-    <!-- FOOTER ACTIONS -->
     <div class="footer-actions">
         <form method="post" style="margin-bottom: 0.75rem;">
             <input type="hidden" name="action" value="allowance">
