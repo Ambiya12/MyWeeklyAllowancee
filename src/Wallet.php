@@ -2,6 +2,10 @@
 
 namespace App;
 
+use InvalidArgumentException;
+use RuntimeException;
+use DateTime;
+
 class Wallet
 {
     private float $balance = 0.0;
@@ -21,7 +25,7 @@ class Wallet
     public function deposit(float $amount): void
     {
         if ($amount < 0) {
-            throw new \InvalidArgumentException("Le montant du dépôt ne peut pas être négatif");
+            throw new InvalidArgumentException("Le montant du dépôt ne peut pas être négatif");
         }
         $this->balance += $amount;
     }
@@ -29,15 +33,14 @@ class Wallet
     public function spend(float $amount, string $description = ""): void
     {
         if ($amount > $this->balance) {
-            throw new \Exception("Fonds insuffisants");
+            throw new RuntimeException("Fonds insuffisants");
         }
 
         $this->balance -= $amount;
-
         $this->history[] = [
             'amount' => $amount,
             'description' => $description,
-            'date' => new \DateTime()
+            'date' => new DateTime()
         ];
     }
 

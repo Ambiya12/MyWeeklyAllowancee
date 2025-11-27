@@ -4,50 +4,48 @@ namespace MyWeeklyAllowancee\tests;
 
 use PHPUnit\Framework\TestCase;
 use App\Wallet;
+use InvalidArgumentException;
+use RuntimeException;
 
-class WalletTest extends TestCase {
-
+class WalletTest extends TestCase
+{
+    private Wallet $wallet;
+    protected function setUp(): void
+    {
+        $this->wallet = new Wallet();
+    }
     // Antoine
     public function testNewWalletHasZeroBalance(): void
     {
-        $wallet = new Wallet();
-        $this->assertSame(0.0, $wallet->getBalance());
+        $this->assertSame(0.0, $this->wallet->getBalance());
     }
+
     // Antoine
     public function testDepositIncreasesBalance(): void
     {
-        $wallet = new Wallet();
-        $wallet->deposit(50.0);
-
-        $this->assertSame(50.0, $wallet->getBalance());
+        $this->wallet->deposit(50.0);
+        $this->assertSame(50.0, $this->wallet->getBalance());
     }
     // Galyst
     public function testCannotDepositNegativeAmount(): void
     {
-        $wallet = new Wallet();
-        $this->expectException(\InvalidArgumentException::class);
-        $wallet->deposit(-10);
+        $this->expectException(InvalidArgumentException::class);
+        $this->wallet->deposit(-10);
     }
     // Galyst
     public function testSpendDecreasesBalance(): void
     {
-        $wallet = new Wallet();
-        $wallet->deposit(100.0);
-
-        $wallet->spend(20.0, 'Test');
-
-        $this->assertSame(80.0, $wallet->getBalance());
+        $this->wallet->deposit(100.0);
+        $this->wallet->spend(20.0, 'Test');
+        $this->assertSame(80.0, $this->wallet->getBalance());
     }
     // Galyst
     public function testCannotSpendMoreThanBalance(): void
     {
-        $wallet = new Wallet();
-        $wallet->deposit(10.0);
-
-        $this->expectException(\Exception::class);
+        $this->wallet->deposit(10.0);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage("Fonds insuffisants");
-
-        $wallet->spend(50.0);
+        $this->wallet->spend(50.0);
     }
     // Anatole
     public function testProcessWeeklyAllowanceAddsMoney(): void
@@ -55,7 +53,6 @@ class WalletTest extends TestCase {
         $wallet = new Wallet(10.0);
 
         $wallet->processWeeklyAllowance();
-
         $this->assertSame(10.0, $wallet->getBalance());
 
         $wallet->processWeeklyAllowance();
@@ -64,23 +61,20 @@ class WalletTest extends TestCase {
     // Anatole
     public function testSpendingIsRecordedInHistory(): void
     {
-        $wallet = new Wallet();
-        $wallet->deposit(50.0);
+        $this->wallet->deposit(50.0);
+        $this->wallet->spend(15.0, "Cinéma avec potes");
+        $this->wallet->spend(5.0, "McDo");
 
-        $wallet->spend(15.0, "Cinéma avec potes");
-        $wallet->spend(5.0, "McDo");
-
-        $history = $wallet->getHistory();
+        $history = $this->wallet->getHistory();
 
         $this->assertCount(2, $history);
-
         $this->assertSame(15.0, $history[0]['amount']);
         $this->assertSame("Cinéma avec potes", $history[0]['description']);
     }
     // Anatole
-    public function testSetAllowance(): void {
-        $wallet = new Wallet();
-
-        $wallet->SetAllowance(25);
+    public function testSetAllowance(): void
+    {
+        $this->wallet->setAllowance(25.0);
+        $this->assertSame(25.0, $this->wallet->getAllowance());
     }
 }

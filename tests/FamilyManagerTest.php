@@ -4,66 +4,70 @@ namespace MyWeeklyAllowancee\tests;
 
 use PHPUnit\Framework\TestCase;
 use App\FamilyManager;
+use RuntimeException;
 
-class FamilyManagerTest extends TestCase {
-    // Antoine
-    public function testAddTeenAndGetWallet()
+class FamilyManagerTest extends TestCase
+{
+    private FamilyManager $manager;
+
+    protected function setUp(): void
     {
-        $fm = new FamilyManager();
-        $fm->addTeen('Anatole', 5.0);
-        $wallet = $fm->getWallet('Anatole');
-        $this->assertEquals(0.0, $wallet->getBalance());
+        $this->manager = new FamilyManager();
     }
 
     // Antoine
-    public function testDepositAndSpend()
+    public function testAddTeenAndGetWallet(): void
     {
-        $fm = new FamilyManager();
-        $fm->addTeen('Galyst', 10.0);
-        $fm->depositToTeen('Galyst', 20.0);
-        $this->assertEquals(20.0, $fm->getWallet('Galyst')->getBalance());
-        $fm->spendFromTeen('Galyst', 5.0);
-        $this->assertEquals(15.0, $fm->getWallet('Galyst')->getBalance());
+        $this->manager->addTeen('Anatole', 5.0);
+        $wallet = $this->manager->getWallet('Anatole');
+        $this->assertSame(0.0, $wallet->getBalance());
     }
-
-    // Galyst
-    public function testWeeklyAllowance()
+    // Antoine
+    public function testDepositAndSpend(): void
     {
-        $fm = new FamilyManager();
-        $fm->addTeen('Antoine', 7.0);
-        $fm->processAllWeeklyAllowances();
-        $this->assertEquals(7.0, $fm->getWallet('Antoine')->getBalance());
-        $fm->processAllWeeklyAllowances();
-        $this->assertEquals(14.0, $fm->getWallet('Antoine')->getBalance());
+        $this->manager->addTeen('Galyst', 10.0);
+        $this->manager->depositToTeen('Galyst', 20.0);
+        $this->assertSame(20.0, $this->manager->getWallet('Galyst')->getBalance());
+
+        $this->manager->spendFromTeen('Galyst', 5.0);
+        $this->assertSame(15.0, $this->manager->getWallet('Galyst')->getBalance());
     }
-
     // Galyst
-    public function testMultipleTeens()
+    public function testWeeklyAllowance(): void
     {
-        $fm = new FamilyManager();
-        $fm->addTeen('Anatoine', 2.0);
-        $fm->addTeen('Anatole', 3.0);
-        $fm->depositToTeen('Anatoine', 5.0);
-        $fm->depositToTeen('Anatole', 10.0);
-        $fm->processAllWeeklyAllowances();
-        $this->assertEquals(7.0, $fm->getWallet('Anatoine')->getBalance());
-        $this->assertEquals(13.0, $fm->getWallet('Anatole')->getBalance());
+        $this->manager->addTeen('Antoine', 7.0);
+
+        $this->manager->processAllWeeklyAllowances();
+        $this->assertSame(7.0, $this->manager->getWallet('Antoine')->getBalance());
+
+        $this->manager->processAllWeeklyAllowances();
+        $this->assertSame(14.0, $this->manager->getWallet('Antoine')->getBalance());
+    }
+    // Galyst
+    public function testMultipleTeens(): void
+    {
+        $this->manager->addTeen('Anatoine', 2.0);
+        $this->manager->addTeen('Anatole', 3.0);
+
+        $this->manager->depositToTeen('Anatoine', 5.0);
+        $this->manager->depositToTeen('Anatole', 10.0);
+        $this->manager->processAllWeeklyAllowances();
+
+        $this->assertSame(7.0, $this->manager->getWallet('Anatoine')->getBalance());
+        $this->assertSame(13.0, $this->manager->getWallet('Anatole')->getBalance());
+    }
+    // Anatole
+    public function testAddTeenTwiceThrows(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->manager->addTeen('Galyst', 1.0);
+        $this->manager->addTeen('Galyst', 2.0);
     }
 
     // Anatole
-    public function testAddTeenTwiceThrows()
+    public function testUnknownTeenThrows(): void
     {
-        $this->expectException(\Exception::class);
-        $fm = new FamilyManager();
-        $fm->addTeen('Galyst', 1.0);
-        $fm->addTeen('Galyst', 2.0);
-    }
-
-    // Anatole
-    public function testUnknownTeenThrows()
-    {
-        $this->expectException(\Exception::class);
-        $fm = new FamilyManager();
-        $fm->getWallet('Pierre');
+        $this->expectException(RuntimeException::class);
+        $this->manager->getWallet('Pierre');
     }
 }

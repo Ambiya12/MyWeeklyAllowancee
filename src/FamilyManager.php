@@ -2,22 +2,24 @@
 
 namespace App;
 
+use RuntimeException;
+
 class FamilyManager
 {
     private array $wallets = [];
 
     public function addTeen(string $name, float $weeklyAllowance): void
     {
-        if (isset($this->wallets[$name])) {
-            throw new \Exception("L'adolescent '$name' existe déjà");
+        if ($this->teenExists($name)) {
+            throw new RuntimeException("L'adolescent '$name' existe déjà");
         }
         $this->wallets[$name] = new Wallet($weeklyAllowance);
     }
 
     public function getWallet(string $name): Wallet
     {
-        if (!isset($this->wallets[$name])) {
-            throw new \Exception("Adolescent '$name' non trouvé");
+        if (!$this->teenExists($name)) {
+            throw new RuntimeException("Adolescent '$name' non trouvé");
         }
         return $this->wallets[$name];
     }
@@ -42,5 +44,10 @@ class FamilyManager
     public function getAllTeens(): array
     {
         return array_keys($this->wallets);
+    }
+
+    private function teenExists(string $name): bool
+    {
+        return isset($this->wallets[$name]);
     }
 }
