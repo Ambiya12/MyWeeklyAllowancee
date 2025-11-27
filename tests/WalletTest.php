@@ -49,4 +49,38 @@ class WalletTest extends TestCase {
 
         $wallet->spend(50.0);
     }
+    // Anatole
+    public function testProcessWeeklyAllowanceAddsMoney(): void
+    {
+        $wallet = new Wallet(10.0);
+
+        $wallet->processWeeklyAllowance();
+
+        $this->assertSame(10.0, $wallet->getBalance());
+
+        $wallet->processWeeklyAllowance();
+        $this->assertSame(20.0, $wallet->getBalance());
+    }
+    // Anatole
+    public function testSpendingIsRecordedInHistory(): void
+    {
+        $wallet = new Wallet();
+        $wallet->deposit(50.0);
+
+        $wallet->spend(15.0, "Cinéma avec potes");
+        $wallet->spend(5.0, "McDo");
+
+        $history = $wallet->getHistory();
+
+        $this->assertCount(2, $history);
+
+        $this->assertSame(15.0, $history[0]['amount']);
+        $this->assertSame("Cinéma avec potes", $history[0]['description']);
+    }
+    // Anatole
+    public function testSetAllowance(): void {
+        $wallet = new Wallet();
+
+        $wallet->SetAllowance(25);
+    }
 }
